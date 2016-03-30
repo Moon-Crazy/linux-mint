@@ -129,3 +129,60 @@ ls -d /lib64
 	a. ls -lrt /etc/ 按修改时间（t），倒叙（r,reverse），查看。（ps：ls为什么有颜色，别名alias中--color=auto）
 
 结束时间：2016年03月30日17:52:25共（2个小时20分钟，中间安装了tree与fuck）。
+
+开始时间：2016年03月30日20:25:11
+
+第85课
+第86课考试题实在讲解03
+
+5，已知apache服务的访问日志按天记录在服务器本地目录/applogs下，由于磁盘空间紧张，现在要求只能保留最近7天的访问日志！（提示：可以从apache服务配置上着手，也可以从生成出来的日志上着手）
+	a.从命令着手.(工作中使用find删除）
+命令：ntpdate time.nist.gov ：同步时间
+	  find /app/logs/ -type f -name "acc*.log" -mtime +7|xargs rm -f
+	  find /app/logs/ -type f -name "acc*.log" -mtime +7 -exec rm -f {} \;(该命令同上）
+	查找 logs路径，acc*.log 文件，7天前修改。 -mtime +7 指7天前修改。（修改时间就是ls -l，看到的时间）
+ps:find的3个时间： -atime,-catime,-mtime. access(访问），change（改变）。
+
+第87课考题讲解04
+6，调试系统服务时，希望能实时查看系统日志/var/log/messages的更新？
+tail -f ; tailf ; tail -F ,(-F有重试功能）
+
+第88课 05
+7，打印配置文件nginx.conf内容的行号以内容？
+cat -n 文件名
+nl 文件名
+less -N 文件名
+grep -n .文件名 （"."是正则表达式中“一个或者多个字符”，-n 是显示过滤出的行号，过滤出文件中的所有内容，并且显示行号） 
+awk '{print NR,$0}' 文件名 ，（$0是全部行内容，NR是行号）
+vim 文件名 set nu
+
+“." : 点号的意思：a,当前目录。b，隐藏文件。c，正则表达式。d，让文件生效。
+
+第89课 06
+8，装完系统后，希望能让网络文件共享服务NFS，仅在3级别上开机启动？
+chkconfig --level 3 NFS on
+
+8.8把开发的脚本通过chkconfig管理
+在fr脚本的第二行加入
+# chkconfig:12345 13 98
+# description: fr
+chkconfig --add fr(fr为脚本名称）
+
+第91课 07
+grub文件:/etc/grub.
+
+第92课 08
+中文字符集/etc/sysconfig/i18n是配置文件
+
+第93课 09
+12./etc/目录为linux系统的默认的配置文件及服务启动命令的目录
+	a，请用tar打包/etc整个目录（打包并且压缩）
+	b，请用tar打包/etc整个目录（打包并且压缩，排除/etc/services文件）
+	c，把a解压到/tmp目录。
+tar -zcvf 生成的文件名 需要压缩的文件名
+tar -zxvf 需要解压的文件名
+打包习惯，进入需要打包目录的上级目录，需要压缩的文件名写相对路径，主要是为了解压的时候路径不会错误。
+z 使用gzip工具，c创建归档文件，v显示过程，f对文件处理，tf查看归档类文件名称，
+
+结束时间：2016年03月30日23:34:41（共3个小时，感觉没有写什么东西）
+
