@@ -93,3 +93,39 @@ regular file , directory , link (符号链接，软链接）
 character(字符文件,猫）,block(块设备，硬盘，光驱），sock(套接字文件，进程之间通信),
 ps:man find 中查看　－type 可以看到文件类型的全部分类。
 
+结束时间：2016年03月30日15:54:30（开始于2小时前）
+开始时间：2016年03月30日15:54:30
+
+第82课linux启动过程及32位与64位区别结束
+
+启动过程
+1.开机BIOS自检。2.MBR引导，硬盘0柱面0磁道1扇区的前446byte。3.grub引导菜单，cat /etc/grub.conf 。4.加载内核kernel. 5.启动init进程,ps号是1. 6.init进程读取inittab文件，执行rc.sysinit rc 等脚本。/etc/inittab        /etc/rc.d/rc.sysinit        /etc/rc.d/rc3.d/  (根据设置的级别，启动）。启动mingetty 进程。
+
+32位与64位的区别
+不同1：设计的定位不同。安装要求配置不同。运算书店不同。寻址能力不同。
+
+32位的系统怎么支持8G内存。PAE功能。
+
+如何区分32位与64位
+uname -m
+ls -d /lib64
+
+第83课运维第二关知识问题与命令基础考试题1
+
+1, 如何过滤出自己当前目录下oldboy中的所有一级目录？
+	a. ls -l | grep "^d"
+	b. ls -lF | grep /
+	c. tree -d -a -L 1
+	d. find ./ -type d -maxdepth 1
+	   find 命令的-a参数是去前后条件的交集，-o参数是两边的条件都可以，-！是排除后边的条件。
+	e. ls -l | awk '/^d/'
+	f. ls -l | sed -n '/^d/p' (-n取消默认输出）
+第84课
+
+2，切换到上一次工作目录
+	a. cd -（原理是什么）
+
+3，一个目录中有很多文件（ls查看时有好多屏，想最快速度看到最近跟新的文件）
+	a. ls -lrt /etc/ 按修改时间（t），倒叙（r,reverse），查看。（ps：ls为什么有颜色，别名alias中--color=auto）
+
+
