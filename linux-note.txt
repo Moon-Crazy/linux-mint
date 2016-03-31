@@ -186,3 +186,47 @@ z 使用gzip工具，c创建归档文件，v显示过程，f对文件处理，tf
 
 结束时间：2016年03月30日23:34:41（共3个小时，感觉没有写什么东西）
 
+开始时间：2016年03月31日10:12:18
+排除文件之后压缩
+tar -zcvf 压缩包名 需要压缩的目录名 --exclude==需要排除的文件名
+tar -zcvfX 压缩包名 写有排除文件的文件名 需要压缩的目录名
+
+指定解压后的存放目录
+tar -zxvf 压缩包名 -C 指定的存放目录
+
+ps:tar -p 保持打包的文件的属性
+       -P(大写）用绝对路径打包（一般不使用，容易覆盖原文件）
+
+第95课
+打包的2种方式
+-z使用的是gzip打包，-j使用的是bzip2打包。
+
+把目录文件下的所以的test.txt文件打包
+find ./ -type f -name test.txt | xargs tar -zcvf a.gz
+tar -zcvf 压缩包名 `find ./ -type f -name test.txt`
+
+13.从 “i am cc ,what is your name"中取出”cc name"
+cut命令：
+cut -d " " f3,f6 cc.txt（逗号前后也取出了） 
+cut -c 5-6,19- cc.txt 
+awk命令：
+awk '{print,$3,$6}' cc.txt  (默认分隔符就是空格）
+awk的多分隔符
+awk -F "[, ]" '{print,$3,$6} cc.txt (使用逗号和空格双分隔符,$NF是取最后一列）
+
+第96课
+14.如何查看/etc/services文件有多少行？
+	a.   wc -l 文件名 （line）
+	b.   cat -n 文件名
+	c.   awk '{print NR}' /etc/services|tail -1
+	d.   grep -n $ /etc/services | tail -1
+ps:wc -l(显示多少行),wc -c (显示多少个字符), wc -w(显示多少个单词)
+
+命令行及shell中不加引号、加单引号和加双引号的区别
+单引号：
+	可以说是所见即所得：将单引号内的内容原样输出，
+双引号：
+	把双引号内的内容输出出来：如果内容中有命令、变量等，会先解析出结构，然后在输出最终内容来。
+
+不加引号：不会将含有空格的字符串视为一个整体输出，如果内容中有命令、变量等，会先把变量、命令的结果解析出来。
+
