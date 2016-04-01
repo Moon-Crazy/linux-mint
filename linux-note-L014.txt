@@ -1,0 +1,103 @@
+开始时间：2016年04月01日13:33:45
+题目：请给出默认情况eth0网卡配置文件的路径及客户端DNS的路径。
+	/etc/sysconfig/network-scripts/ifcfg-eth0
+	/etc/resolv.conf
+	.com/2561410/784625
+	.com/2561410/974194
+
+题目：查找当前目录下所有文件，并把文件中的www.etiantian.org字符替换成www.oldboy.cc	
+通过find命令查找，
+PS：将文本批量插入文件。
+sed -i 'i 1 文本数据' 文件名
+find /home/moon/gncs -type f | xargs sed -i '1 i fsadfasdfdafda'
+find查找出所有文件，使用sed插入。（空文件不能插入）,使用-exec 需要在结尾在上一对大括号，一个空格，一个分好。
+解决方法：
+find ./ -type f | xargs sed -i 's#被替换的文件##g'(xargs的意思是find找到的数据是作为文件被一个个递交给sed，不是作为字符串递交给sed）
+sed -i '/被删除的数据/d'（发现并删除，被删除的数据）
+
+题目：打印三天前的日期格式如2011-02-26
+	date +%F -d '3 day ago'
+	date +%F -d '3 next ago'
+	date +%F -d '+3 day'
+	date +$F -d '-3 day'
+
+题目：使用系统时间作为文件名打包。
+	tar -zcvf chen.$(date +%F).tar.gz 需要打包的文件名
+	文件名是系统3天前的时间。
+	tar -zcvf chen.$(date +%F -d '-3 day').tar.gz 需要打包的文件名
+
+题目：已知文件内容位：
+chen
+
+
+xizi
+
+
+xiaochen
+请问如何把文件中的空行过滤（要求命令行实现）
+使用grep
+	grep -v "^$" 文件名
+	sed '/^$/d' 文件名
+	上面两种只是打印无空行，文本中还是有空行的。
+	sed -i '/^$/d' 文件名
+
+题目：已知文件内容位：
+chen
+ccchennnn
+
+test
+请使用grep或者egrep正则表达式匹配出前两行的内容。
+grep '^c' 文件名
+
+题目：请描述下列路径的内容是做什么的？
+/var/log/messages             系统日志
+/var/log/secure               系统安全日志
+/var/spool/clientmqueue       邮件临时目录
+/proc/interrupts              查看中断文件
+/etc/fstab                    磁盘文件系统开机自动挂着文件
+/etc/profile                  全局环境变量配置文件
+
+
+
+题目：如何快速查到命令ifconfig的全路径。
+	which whereis locate find 
+	which cp
+	whereis -b cp
+	locate -n 1 命令名(只查看updatedb库里的内容）
+
+题目：查看linux登陆命令
+	who w last lastlog
+
+题目：给出关机和重启的命令
+	shutdown -h now  #立刻关机
+	shutdown -h +1   #1分钟后关机
+	init 0
+	halt             
+	poweroff
+	halt -p
+重启命令
+	reboot
+	shutdown -r now
+	shutdown -r +1
+	init 6
+注销
+	logout
+	exit
+	ctrl + d
+
+题目：bash常用快捷键
+	ctrl + a 切换到命令行开始
+	ctrl + e 切换到命令行末尾
+	ctrl + c 终止当前命令或脚本
+	ctrl + d 退出当前shell，相当于exit
+	ctrl + l 清楚屏幕内容，相当于clear
+	ctrl + u 清除光标之前的内容
+	ctrl + k 删除光标后的内容
+	ctrl + p 
+	ctrl + r 查找历史目录
+	ctrl + shift + c 复制
+	ctrl + shift + v 粘贴并回车
+	alt + b
+	alt + f
+
+结束时间:2016年04月01日15:43:55(共3个小时）
