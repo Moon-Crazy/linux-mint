@@ -1,0 +1,30 @@
+开始时间：2016年4.1   10:45
+L013-05
+题目：执行目录取出linux中eth0的ip地址（请用cut，有能力者也可分别用awk，sed命令）。
+	解答：eth0 的配置信息在/etc/sysconfig/network-script/ifcfg-eth0
+使用cut取
+	ifconfig eth0 |grep "inet addr"|cut -d ":" -f2|cut -d " " -f1
+使用awk取
+	ifconfig eth0 |grep "inet addr"|awk -F ":" {print $2} | awk '{print $1}'
+使用awk的多分隔符
+	自己写 使用多分隔符与加号，51cto深入浅出。
+有行号的时候用sed取更方便
+	ifconfig eth0|sed -n '2p
+用awk取行
+	ifconfig eth0|awk -F "[: ]" NR==2 '{print $}
+命令awk：
+NR   表示行号
+$0 全部列 $1第一列 $NF 最后一列
+
+
+L013-06
+使用正则表达式取
+	查找那一行，将需要的数据的前面和后面都是替换为无
+	ifconfig eth0|sed -n 2p|sed 's#^.*addr##g' | sed 's#  Bc.*$##g'
+使用sed匹配整文
+	sed命令 -n取消默认输出，p将替换的输出，\1第一个小括号内的内容,g是全局替换。
+	ifconfig wlan0| sed -n 's#^.*addr:\(.*\)  Bc.*$#\1#gp'
+使用正则表达式取ip地址和广播地址
+	ifconfig wlan0|sed -n 's#^.*addr:\(.*\)  Bcast:\(.*\)  Mas.*$#\1 \2#gp'
+
+结束时间：2016年04月01日11:59:45（共一个小时15分钟）
