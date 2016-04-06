@@ -1,0 +1,122 @@
+开始时间:2016年04月05日14:27:04
+
+01:用户与用户知识的回顾。
+
+uid 0 root ，1-499 虚拟用户 ， 500以上是普通用户。
+用户与组相关的4个文件
+/etc/passwd /shadow /group /gshadow
+/etc/passwd
+用户名：账号密码：账号UID：账号gid：用户说明：用户家目录：shell解释器
+/etc/shadow
+ 账号名：账号密码（加密）：最近更改密码的天数：禁止修改密码的天数：用户必须更改密码的天数：警告更改密码期限：不活动时间：失效时间：标准
+Ps：算天数的从1970年1月1日起。
+
+
+linux用户管理（linux的核心内容：用户）
+
+useradd	userdel	passwd chage usermod id su sudo visudo 
+groupadd groups newgrp 	(组需要了解的命令）
+pwcov pwck pwunconv chfn chsh finger sudoedit
+
+第一行需要熟练，第三行能了解就好了
+
+新添加的用户的家目录下有隐藏文件（用户的环境变量）
+/etc/skel目录是用来存放新用户配置文件的目录。目录下的全部内容被复制到新用户的家目录下。（管理员可以在该目录下存放注意事项，新建立的用户可以注意到）
+
+
+/etc/login.defs 配置文件
+用来定义创建用户时需要的一些用户的配置信息。（如密码的最大使用日期，是否有加目录，uid，gid范围等）
+（自己less下看看，了解）
+
+/etc/default/useradd文件（用户初始化文件）
+用户家目录的位置，是否启用账号过期停权（-1）表示不启用。expire账号终止日期（不设置，就是无），shell类型。skel（新用户的家目录的初始内容，环境变量）
+可以使用useradd -D 查看或者修改
+
+用户的命令
+useradd 的 参数
+重要参数 -e , -g  ,  -G  ,  -m   ,   -M   ,  -s   ,  -u   ,
+-e  exprie_date
+终止日期，格式是mm/dd/yy
+-g  initial_group
+属于的用户组（必须存在）
+-G  group[]
+同时为用户指定多个组，用逗号隔开
+-m  
+建立用户家目录
+-M
+不建立用户加目录
+-s shell
+指定用户登陆的shell
+-u uid
+设定用户的uid
+结束时间：2016年04月05日15:33:32
+
+开始时间：2016年04月06日09:46:32
+
+建立一个用户chen，无家目录，不能登陆，属于sa组（801），uid是808
+group -g 801 sa
+useradd -u 808 -g sa -M -s /sbin/nologin chen
+
+添加用户组
+gruopadd chen -g 1010 （指定gid）
+
+passwd (修改用户密码）
+常用参数 --stdin 
+修改密码方式
+echo "password" | passwd --stdin username
+-l 锁定用户，不能更改密码。-u解锁。
+-d 清除密码
+-S 查看密码状态.
+创建一百个用户，并且创建密码。
+例：使用-x -n -w -i 控制密码时效。
+chen用户7天内不能改密码，60天内必须改密码，提示时间10天，过期30天后禁止登陆。
+passwd -n 7 -x 60 -w 10 -i 30 chen
+
+结束时间：2016年04月06日11:00
+开始时间：2016年04月06日12:00
+chage 命令 很多和 passwd相同
+-l   查看用户的密码年龄信息
+
+userdel 删除用户命令
+userdel -r username (删除用户和该用户的家目录）
+在工作中不使用userdel删除用户，使用vim /etc/passwd 在用户前加注释。
+
+groupdel 删除用户组
+用户组的属主存在的情况下，不能删除用户组。
+
+usermod 用户信息修改
+功能很强大，但是不常用，和上面的有重复。
+
+用户查询相关命令 id，finger，users， w , who , last . lastlog , groups
+finger 命令不安全被去除了
+w 显示一级登陆的用户，并且都做了上面的信息。（show who is logged no and what they are doing)查看的信息与/var/run/utmp文件有关
+who 显示哪些用户在登陆，终端以及登陆时间，来源主机。（show who is logged on）
+users 显示哪些用户在登陆
+last 显示已登陆的用户列表以及登陆时间等。（show listing of last logged in users） 查看的信息和/var/log/wtmp 以及 /var/log/btmp两个文件有关。
+lastlog 报告最近的所有系统用户的登陆信息。（reports the most recent login of all users or of a given user)。查看的信息和/var/lgo/lastlog日志有关
+groups 查看当前用户的有效用户组(第一个)
+groups 用户名 查看用户属于的组。
+newgrp 改变有效组
+
+暂停时间：2016年04月06日13:27:21
+开始时间：2016年04月06日14:19:07
+
+linux的角色切换
+su
+常用参数 - ，-c ,
+- 切换角色并且带环境变量
+-c 使用另一个角色的环境执行命令。（su - chen -c ls -la /home/chen ）
+su命令在使用时候，将root的密码提供了，会带来很大的安全隐患。尽量避免使用。多使用sudo命令。
+
+sudo命令
+在visudo中，添加用户需要使用的命令。
+5.8centos /var/run/sudo 下保存时间戳 6.4centos /var/db/sudo
+/etc/sudoers 保存配置文件使用visudo修改,修改nopassword不需要用户输入自己的密码。
+sudo -l 可以查看root给自己分配的权限。
+man sudoers 查看visudo的帮助，查看配置信息的帮助。
+visudo中授权组使用“%”开头，其余和用户一样
+用户名 机器=角色  命令（用逗号隔开），当规则超过一行的长度时，可以用“\"号来续行
+sudoers 主要是定义别名，与授权。
+结束时间：2016年04月06日15:42:34
+
+

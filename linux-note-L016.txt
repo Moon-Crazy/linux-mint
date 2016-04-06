@@ -1,0 +1,18 @@
+开始时间：2016年04月02日10:30:32
+第一节：回顾
+对于文件读写执，就是rwx。
+对于目录读写，需要X配合。执行就是x。
+
+setuid
+查找有s权限的文件
+find /bin/ -type f -perm 4755 | xargs ls -l
+
+setgid
+
+chattr
+lsattr
+
+setfacl
+getfacl
+
+结束时间：2016年04月02日12:30:33
