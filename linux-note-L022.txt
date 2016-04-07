@@ -1,0 +1,68 @@
+开始时间：2016年04月06日15:54:29
+
+02，用户访问网站的基本流程和原理
+
+04,局域网电脑上网的基本流程和原理
+ a 修改主机名
+   hostname 主机名 （临时生效）
+   /etc/sysconfig/network (永久生效）
+永久:
+hostname chen
+vi /etc/sysconfig/network
+vi /etc/hosts
+
+通过setup修改主机名。
+/etc/hosts下的hostname不对会使服务启动的慢。
+开始时间：2016年04月07日14:05:25
+
+ b 修改网卡的配置
+/etc/sysconfig/network-scripts/ifcfg-eth0
+DEVICE=
+TYPE=
+ONBOOT=
+NM_CONTROLLED=
+BOOTPROTO=
+DNS1=
+USERCTL=
+IPV6INIT=
+HWADDR=
+IPADDR=
+GATEWAY=
+配置好后，重启network
+第一种：/etc/init.d/network restart
+第二种：ifup eth0 
+
+一张网卡配置2个ip
+ifconfig eth0:1 ip 10.0.0.5 netmask 255.255.255.0 up(临时生效）
+ifconfig eth0:1 down
+永久生效和配置eth0是一样的
+
+配置dns（最好不要在网卡的配置文件里设置dns）,直接生效
+/etc/resolv.conf
+ps:/etc/resolv.conf是和网卡配置里的dns一样的。
+配置网关
+在命令行查看网关
+route -n 查看路由表
+route add default gw ip
+route del default gw ip(临时生效)
+
+网络配置的第一生效文件都是
+/etc/sysconfig/network-script/ifcfg-eth0
+
+ping dig nslookup
+网络检测 
+ping traceroute telnet nmap
+DNS解析
+dig nslookup host 
+抓包工具
+tcpdump
+
+排错
+1.物理链路是否畅通
+2.本机IP，路由，dns的设置情况是否达标。
+3.测试到网关或路由器的畅通情况。先测网关然后再测路由器一级一级的测试。
+4.测试ping公网ip的通常情况（平时要记几个外部ip）
+5.测试dns的畅通，可以ping www.baidu.com看是否出对应ip。
+  根据每级的结果排查。如果是系统管理员，以上问题都检测了后，还可以在网关路由
+
+结束时间：2016年04月07日15:36:19
